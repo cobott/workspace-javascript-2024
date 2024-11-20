@@ -358,11 +358,44 @@
 
             </p>
             <p>
-                <input type="button" value="Check Premium">
+                <input type="button" id="premium" value="Check Premium">
             </p>
-            <p id="result">
+            <p id="premiumresult">
 
             </p>
+
+            <script>
+                function getpremium() {
+                    var base = 10;
+                    var coverage = document.querySelector('input[name="coverage"]:checked').value;
+                    var ageindex = document.querySelector('#agegroup').selectedIndex;
+                    console.log("The coverage is " + coverage + "  age  " + ageindex);
+
+                    var agefactor = 0
+                    switch (ageindex) {
+                        case 0: agefactor = 0.08; break;
+                        case 1: agefactor = 0.09; break;
+                        case 2: agefactor = 0.11; break;
+                        case 3: agefactor = 0.17; break;
+                        case 4: agefactor = 0.29; break;
+                        case 5: agefactor = 0.48; break;
+                        case 6: agefactor = 0.75; break;
+                        case 7: agefactor = 1.17; break;
+
+                        default: break;
+
+                    }
+
+                    var premium = base + parseFloat(coverage) / 1000 * agefactor;
+
+
+
+                }
+
+                var bE = document.querySelector('input[value="Check Premium"]');
+                bE.addEventListener('click', getpremium, false);
+
+            </script>
 
         </div>
 
@@ -376,6 +409,16 @@
             <p>
                 <input type="button" value="Click for Square">
             </p>
+
+            <script>
+                for (let i = 0; i < 6; i++) {
+                    var square = i * i;
+                    outlist += "<li>" + i + "^2 = " + square + "</li>";
+                }
+                outlist += "</li>"
+
+                document.getElementById('squarelist').innerHTML = outlist;
+            </script>
 
         </div>
 
@@ -413,12 +456,18 @@
             <p> A simple JavaScript Quiz </p>
             <p>Target: Generate a simple substract and add problems using JavaScript and then check the answers</p>
             <a href="quiz1.html">Do your practice in quiz1.html</a>
+            <script>
+                for (let i = 0; i < 4; i++) {
+                    var num = (Math.random() * 6) + 1;
+                    alert(num);
+                }
+            </script>
         </div>
 
         <div class="practice">
             <h1>Change Attribute -- Rolling a dice </h1>
             <p> <input type="button" id="roll" value="roll" /> </p>
-            <p> <img src="img/die1.png"> </p>
+            <p> <img id=dieimg src="img/die1.png"> </p>
             <table>
                 <tr>
                     <th>Result</th>
@@ -439,6 +488,36 @@
                     <td id="r6"></td>
                 </tr>
             </table>
+            <script>
+                // practice array
+                /*const myarray = [1,2,3,4,5,6,7];
+                myarray.forEach(element => console.log(element));
+                myarray.push(8)
+                myarray.push(10)
+                myarray.pop()
+                for (var i in myarray){
+                    console.log(myarray[i]);
+                }
+                console.log(myarray);
+                */
+                function randInt(min, max) {
+                    return Math.floor(Math.random() * (max - min + 1) + min);
+                }
+
+                var stats = [0, 0, 0, 0, 0, 0];
+                function rolldice() {
+                    console.log("roll click works");
+                    var imgE = document.querySelector('#dieimg');
+                    var num = randInt(1, 6); // how to get random -- complete
+                    imgE.setAttribute('src', "img/die" + num + ".png");
+                    stats[num - 1]++;
+                    document.getElementById('r' + num).textContent = stats[num - 1].toString();
+
+                }
+
+                // bind the event
+                document.getElementById('roll').addEventListener('click', rolldice);
+            </script>
 
         </div>
 
@@ -461,6 +540,24 @@
                 <img src="img/usca5.jpg" alt="usca">
             </div>
             <script>
+                var imglist = document.querySelectorAll('.img-container-hide');
+                imglist[0].setAttribute('class', 'img-container');
+                var index = 0;
+                // even -- change to next pic
+                function changepic(){
+                    imglist[index].setAttribute('class',"img-container-hide");
+                    //the next one
+                    index++
+                    index = index % 5;
+                    // show the next one
+                    imglist[index].setAttribute('class',"img-container");
+
+
+                }
+
+                // bind the event
+                setInterval(changepic,3000);
+                imglist[0].addEventListener('click', changepic);
 
             </script>
 
@@ -474,13 +571,13 @@
             <div>
                 <form>
                     <p>
-                        Name: <input type="text" id="name">
+                        Name: <input type="text" id="guestname">
                     </p>
                     <p>
                         Check in: <input type="date" id="checkin"> Check out: <input type="date" id="checkout">
                     </p>
                     <p>
-                        Number of guest: <input type="number" id="num" min="0" max="5">
+                        Number of guest: <input type="number" id="numppl" min="0" max="5">
                     </p>
                     <p>
                         Room Type: <select id="room">
